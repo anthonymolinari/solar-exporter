@@ -6,18 +6,18 @@ import requests as req
 def generate_token(user, password, envoy_serial):
     print('generating token')
 
-    login_url = 'http://enlighten.enphaseenergy.com/login/login.json?',
+    login_url = 'http://enlighten.enphaseenergy.com/login/login.json?'
     data = {'user[email]': user, 'user[password]': password}
 
     res = req.post(login_url, data=data)
     res_data = json.loads(res.text)
+    print(res_data)
 
     data = {
-        'session_id': res_data['sesson_id'],
+        'session_id': res_data['session_id'],
         'serial_num': envoy_serial,
         'username': user
     }
 
     res = req.post('http://entrez.enphaseenergy.com/tokens', json=data)
-    token_raw = res.text
-    return token_raw
+    return res.text
