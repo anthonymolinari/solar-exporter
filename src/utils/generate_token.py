@@ -1,5 +1,7 @@
 import json
 import requests as req
+import os
+from decouple import config
 
 
 # generate auth token for enphase inverter api access
@@ -21,3 +23,21 @@ def generate_token(user, password, envoy_serial):
 
     res = req.post('http://entrez.enphaseenergy.com/tokens', json=data)
     return res.text
+
+
+def get_token():
+    username = os.getenv('USER')
+    password = os.getenv('PASSWORD')
+    serial = os.getenv('SERIAL')
+
+    if username is None or password is None or serial is None:
+        # use local .env
+        username = config('USER')
+        password = config('PASSWORD')
+        serial = config('SERIAL')
+
+    token = generate_token(username, password, serial)
+    # raise error if unable to get token
+    return token
+
+
