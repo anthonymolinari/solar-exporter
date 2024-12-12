@@ -11,4 +11,4 @@ COPY src/ /app/src/
 
 WORKDIR /app/src
 
-CMD ["uwsgi", "--http", "0.0.0.0:8000", "--master", "-p", "4", "-w", "api:app"]
+CMD ["uwsgi", "--http", "0.0.0.0:8000", "--master", "-p", "4", "-w", "app:app"]
